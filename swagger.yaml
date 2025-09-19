@@ -1,0 +1,117 @@
+openapi: 3.0.0
+info:
+  title: Plivo PubSub System API
+  version: 1.0.0
+  description: API for managing topics and retrieving system statistics in the Plivo PubSub System.
+
+paths:
+  /topics:
+    get:
+      summary: List all topics
+      responses:
+        '200':
+          description: A list of topics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  topics:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        subscribers:
+                          type: integer
+
+    post:
+      summary: Create a new topic
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: orders
+      responses:
+        '201':
+          description: Topic created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  topic:
+                    type: string
+        '409':
+          description: Topic already exists
+
+  /topics/{name}:
+    delete:
+      summary: Delete a topic
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Topic deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  topic:
+                    type: string
+        '404':
+          description: Topic not found
+
+  /health:
+    get:
+      summary: Get system health
+      responses:
+        '200':
+          description: System health metrics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uptime_sec:
+                    type: integer
+                  topics:
+                    type: integer
+                  subscribers:
+                    type: integer
+
+  /stats:
+    get:
+      summary: Get system statistics
+      responses:
+        '200':
+          description: System statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  topics:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      properties:
+                        messages:
+                          type: integer
+                        subscribers:
+                          type: integer
