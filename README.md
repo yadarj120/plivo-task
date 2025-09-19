@@ -30,7 +30,7 @@ A simplified in-memory Pub/Sub system built with Node.js, featuring WebSocket en
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/yadarj120/plivo-task
 cd plivo
 
 # Install dependencies
